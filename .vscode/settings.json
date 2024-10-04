@@ -68,6 +68,9 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeindex": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "xutility": "cpp",
+        "xiosbase": "cpp",
+        "format": "cpp"
     }
 }

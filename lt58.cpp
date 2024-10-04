@@ -11,27 +11,45 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* dummyhead= new ListNode();
-        ListNode* curr = dummyhead;
-        ListNode* temp1 = l1;
-        ListNode* temp2= l2;
+        ListNode* curr1= l1;
+        ListNode* curr2=l2;
+        ListNode* current= new ListNode(-1);
+        ListNode* dummyhead = current;
         int carry=0;
-        while(temp1!=NULL || temp2!=NULL){
-            int sum= carry;
-            if(temp1) sum+=temp1->val;
-            if(temp2) sum+=temp2->val;
-            ListNode* newNode = new ListNode(sum%10);
-            carry=sum/10;
-            curr->next= newNode;
-            curr=curr->next;
-            if(temp1)temp1=temp1->next;
-            if(temp2)temp2=temp2->next;
-
-        }    
-        if(carry){
-            ListNode* newNode= new ListNode(carry);
-            curr->next=newNode;
+        while(curr1!=NULL || curr2!=NULL){
+            int temp1;
+            int temp2;
+            if(curr1==NULL){
+                temp1=0;
+            }else{
+                temp1=curr1->val;
+            }
+            if(curr2==NULL){
+                temp2=0;
+            }
+            else{
+                temp2=curr2->val;
+            }
+            int sum = temp1 + temp2;
+            sum=sum+carry;
+            carry= sum/10;
+            sum= sum%10;
+            ListNode* newest= new ListNode(sum);
+            dummyhead->next= newest;
+            if(curr1!=NULL){
+                curr1=curr1->next;
+            }
+            if(curr2!=NULL){
+                curr2=curr2->next;
+            }
+            dummyhead=dummyhead->next;
         }
-        return dummyhead->next;
+        if(carry!=0){
+            ListNode* newest = new ListNode(carry);
+            dummyhead->next = newest;
+            dummyhead=dummyhead->next;
+        }
+
+        return current->next;
     }
 };

@@ -11,52 +11,37 @@
 class Solution {
 public:
 
-    ListNode* reverse(ListNode* head, int left, int right){
-        int count=1;
-        ListNode* dummy;
-        dummy=head;
-        ListNode* current=dummy;
-        ListNode* current2=dummy;
-        int l;
-        int midpoint= left+(right-left)/2;
-        bool leftstop=false;
-        bool rightstop=true;    
-        while(current2!=nullptr){    
-            if(count!=left && leftstop==false){
-                current=current->next;
-            }
-            else{
-                leftstop=true;
-            }
-            if(count!=midpoint && rightstop==false){
-                current2=current2->next;
-            }
-            else{
-                rightstop=true;
-            }
-            if(leftstop && rightstop){
-                int newcount=midpoint;
-                while(newcount!=right){
-                    swap(current->val,current2->val);
-                    current=current->next;
-                    current2=current2->next;
-                    newcount++;
-                }
-            }
-            count++;
+    ListNode* reverseBetween(ListNode* head, int left, int right){
+        if(head==NULL || left==right || head->next==NULL){
+            return head;
         }
+        ListNode* prev= NULL;
+        ListNode* current = head;
+        int i=1;
+        while(current!=NULL && i!=left){
+            prev=current;
+            current=current->next;
+            i++;
+        }
+        ListNode* savednode = prev;
+        ListNode* startnode= current;
+        prev= NULL;
+        while(current!=NULL && i!=right+1){
+            ListNode* nodecapture=current->next;
+            current->next=prev;
+            prev=current;
+            current=nodecapture;
+            i++;
+        }
+        if(savednode!=NULL){
+            savednode->next = prev;
+        }
+        else{
+            head= prev;
+        }
+        startnode->next= current;
+
 
         return head;
-    }
-    ListNode* reverseBetween(ListNode* head, int left, int right) {
-        ListNode* dummy;
-        dummy= reverse(head, left, right);
-        ListNode* dummy2;
-        int midpoint = left+(right-left)/2;
-        dummy2= reverse(dummy,left,midpoint);
-        ListNode* dummy3;
-        dummy3=reverse(dummy,midpoint,right);
-
-        return dummy;
     }
 };
